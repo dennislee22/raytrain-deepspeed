@@ -1,0 +1,7 @@
+deepspeed
+ray[default]
+ray[tune]
+torchmetrics
+transformers
+ipywidgets
+nltk
