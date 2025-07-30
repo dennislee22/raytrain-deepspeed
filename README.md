@@ -81,6 +81,7 @@ huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 <img width="900" height="663" alt="image" src="https://github.com/user-attachments/assets/1bce3ccd-306f-4ad0-8523-8134f500a878" />
 
 - Test 2: 3 workers with 1 GPU each.
-<img width="900" height="706" alt="image" src="https://github.com/user-attachments/assets/88a1c001-2fed-4147-b96e-f8f9338ca247" />
+<img width="900" height="723" alt="image" src="https://github.com/user-attachments/assets/3c129e3f-029e-42a5-b3bb-5a228edaacea" />
+
 
 
