@@ -8,5 +8,4 @@ Python 3.11
 
 ⚠️  ValueError: The configured object store size (15.032385536 GB) exceeds /dev/shm size (4.500000768 GB). This will harm performance. Consider deleting files in /dev/shm or increasing its size with --shm-size in Docker. To ignore this warning, set RAY_OBJECT_STORE_ALLOW_SLOW_STORAGE=1.
 
-
-<img width="1447" height="672" alt="image" src="https://github.com/user-attachments/assets/7caef2a6-ce38-47a3-8b29-97b07773ed2d" />
+<img width="900" height="663" alt="image" src="https://github.com/user-attachments/assets/1bce3ccd-306f-4ad0-8523-8134f500a878" />
