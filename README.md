@@ -7,8 +7,25 @@
 ☑️ Cloudera AI(CAI)/Cloudera Machine Learning (CML) 1.5.x
 
 ## Finetune the T5-3B model using Ray Train with Deepspeed
+- Objective: The script fine-tunes the large t5-large model for a text-to-SQL task using the wikisql dataset.
+- Distributed Training: It leverages Ray to orchestrate a multi-worker training cluster, distributing the data and computation across multiple nodes, each with its own GPU. 🚀
+- Memory Optimization: It uses DeepSpeed's ZeRO Stage 3 to partition the model's parameters, gradients, and optimizer states across the VRAM of all three GPUs in the Ray cluster.
+- Overcoming Limitations: By sharding the model components, DeepSpeed drastically reduces the memory required on any single GPU, enabling the fine-tuning of a model that would be too large to fit into one GPU's limited RAM.
 
-- Model:
+### Procedure
+1. Create a new CAI project.
+   
+2. Install python libraries.
+  ```
+  pip install accelerate torch transformers ipywidgets pandas numpy ray[default]
+  ```
+
+3. Download the LLM into the project of the CAI/CML platform using either `git clone` or `wget`.
+Example:
+  ```
+  git lfs clone https://huggingface.co/google-t5/t5-large
+  ```
+
 ```
 $ ls -lh ./t5-large/
 total 11G
@@ -22,6 +39,9 @@ total 11G
 -rw-r--r--. 1 cdsw cdsw 2.8G Jul 30 02:04 tf_model.h5
 -rw-r--r--. 1 cdsw cdsw 1.4M Jul 30 01:11 tokenizer.json
 ```
+
+4. Download the [wikisql](https://huggingface.co/datasets/htriedman/wikisql) dataset. See the sample content of the dataset in parquet format.
+Example:
 - Dataset:
 ```
 $ python view-parquet.py wikisql/data/train-00000-of-00001-36d5d5ed0289390f.parquet 
