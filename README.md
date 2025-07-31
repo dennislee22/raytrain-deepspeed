@@ -1,4 +1,5 @@
-# Deepspeed with Ray
+# DeepSpeed with Ray
+<img width="406" height="179" alt="image" src="https://github.com/user-attachments/assets/a03094fc-7087-4246-936c-e9ba7db84255" />
 
 ## Platform Requirement
 ☑️ Python 3.11
