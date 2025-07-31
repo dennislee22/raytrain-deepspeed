@@ -84,6 +84,13 @@ huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 🗒️ Test 2: Three Ray workers with 1 GPU each.
 <img width="900" height="723" alt="image" src="https://github.com/user-attachments/assets/3c129e3f-029e-42a5-b3bb-5a228edaacea" />
 
+```
+NAME               READY   STATUS    RESTARTS   AGE     IP             NODE                                          NOMINATED NODE   READINESS GATES
+2j8ybees3x1fdfzc   5/5     Running   0          34m     10.42.7.250    ares-ecs-ws05.ares.olympus.cloudera.com       <none>           <none>
+36wgxhvn90jn2slr   5/5     Running   0          34m     10.42.11.168   ares-ecs-ws-gpu03.ares.olympus.cloudera.com   <none>           <none>
+612tbem2efmi5d3k   5/5     Running   0          34m     10.42.9.112    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
+wex45fbaxwnocf55   5/5     Running   0          34m     10.42.9.111    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
+```
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
 - ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
 
