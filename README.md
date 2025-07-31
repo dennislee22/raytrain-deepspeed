@@ -1,11 +1,11 @@
 # Deepspeed with Ray
 
-Python 3.11
+## Platform Requirement
+☑️ Python 3.11
 
-## Tips
+☑️ Cloudera AI(CAI)/Cloudera Machine Learning (CML) 1.5.x
 
-⚠️  Ray's object store is configured to use only 42.9% of available memory (13.8GB out of 32.3GB total). For optimal Ray Data performance, we recommend setting the object store to at least 50% of available memory. You can do this by setting the 'object_store_memory' parameter when calling ray.init() or by setting the RAY_DEFAULT_OBJECT_STORE_MEMORY_PROPORTION environment variable.
-
+## Finetune the T5-3B model using Ray Train with Deepspeed
 
 - Model:
 ```
@@ -77,11 +77,15 @@ output: string
 huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 ```
 
-- Test 1: 1 worker with 1 GPU
+🗒️ Test 1: One Ray worker with 1 GPU
 <img width="900" height="663" alt="image" src="https://github.com/user-attachments/assets/1bce3ccd-306f-4ad0-8523-8134f500a878" />
 
-- Test 2: 3 workers with 1 GPU each.
+🗒️ Test 2: Three Ray workers with 1 GPU each.
 <img width="900" height="723" alt="image" src="https://github.com/user-attachments/assets/3c129e3f-029e-42a5-b3bb-5a228edaacea" />
 
+- Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
+- ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
 
+## Tips
 
+⚠️  Ray's object store is configured to use only 42.9% of available memory (13.8GB out of 32.3GB total). For optimal Ray Data performance, we recommend setting the object store to at least 50% of available memory. You can do this by setting the 'object_store_memory' parameter when calling ray.init() or by setting the RAY_DEFAULT_OBJECT_STORE_MEMORY_PROPORTION environment variable.
