@@ -115,12 +115,9 @@ wex45fbaxwnocf55   5/5     Running   0          34m     10.42.9.111    ares-ecs-
 - ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
   
 
+<img width="1449" height="355" alt="image" src="https://github.com/user-attachments/assets/584bdb46-9f39-46c3-8345-4ab23ca8a6c2" />
 
-vllm:
 
-- tensor_parallel_size=2 is bigger than a reserved number of GPUs (1 GPUs) in a node f1b367e804616dba76708b1368d5e80e3e0d2b881e8ae2fdd88cb29f. Tensor parallel workers can be spread out to 2+ nodes which can degrade the performance unless you have fast interconnect across nodes, like Infiniband. To resolve this issue, make sure you have more than 2 GPUs available at each node.
-
-- 
 
 ## Tips
 
