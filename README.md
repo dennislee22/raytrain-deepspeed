@@ -98,17 +98,32 @@ output: string
 huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 ```
 
+
+
+
+
 🗒️ Test 1: Train `T5-11B model` with single GPU
 
+When using 
+When fine-tuning a large model, this memory is quickly consumed by three main components:
+- Model Weights: The parameters of the model itself. A model with billions of parameters requires gigabytes of VRAM just to be loaded.
+- Gradients: During backpropagation, the network calculates a gradient for every parameter. These gradients are roughly the same size as the model weights.
+- Optimizer States: Modern optimizers like Adam or AdamW store additional data for each parameter (e.g., momentum and variance), often doubling the memory required by the model weights.
 
-🗒️ Test 2: Train `T5-11B model` with 1 Ray worker of 1 GPU
+For example, a 11-billion parameter model using standard 32-bit precision would require:
+
+- Model Weights: 11B params×4 bytes/param≈44 GB
+- Gradients: ≈44 GB
+- Optimizer States (Adam): ≈88 GB
+Total: ≈176 GB
+
+This total far exceeds the capacity of even high-end GPUs like the A100 (80 GB).
 
 
-🗒️ Test 3: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
-<img width="1400" height="709" alt="image" src="https://github.com/user-attachments/assets/b41a6049-0eea-47e3-9c74-0465ad08ecc0" />
+🗒️ Test 2: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
+Thanks to Ray Train for orchestrating the distributed backend and DeepSpeed for its ZeRO-3 optimization, we successfully fine-tuned a model far too large for a single machine's memory. Ray scales a training workload, allowing DeepSpeed to effectively partition the model's parameters, gradients, and optimizer states across the entire cluster. By leveraging this powerful combination, we transformed a memory-bound failure on a single node into a successful, distributed training job, aggregating the GPU memory from all workers to fit the huge model.
 
-<img width="1394" height="696" alt="image" src="https://github.com/user-attachments/assets/8f99d0b9-5c91-47ff-a702-75b2627f86d7" />
-
+<img width="900" height="696" alt="image" src="https://github.com/user-attachments/assets/8f99d0b9-5c91-47ff-a702-75b2627f86d7" />
 
 ```
 NAME               READY   STATUS    RESTARTS   AGE   IP             NODE                                          NOMINATED NODE   READINESS GATES
@@ -117,6 +132,15 @@ iz04ymk241xhby7y   5/5     Running   0          12m   10.42.9.205    ares-ecs-ws
 poei8fuvp2f68yj6   5/5     Running   0          12m   10.42.8.61     ares-ecs-ws06.ares.olympus.cloudera.com       <none>           <none>
 qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws-gpu03.ares.olympus.cloudera.com   <none>           <none>
 ```
+
+🗒️ Test 3: Train `T5-3B model` with single GPU
+
+🗒️ Test 4: Train `T5-3B model` with 2 Ray workers of 1 GPU each.
+
+🗒️ Test 5: Train `T5-3B model` with 3 Ray workers of 1 GPU each.
+<img width="900" height="691" alt="image" src="https://github.com/user-attachments/assets/2dc8ce75-b4bc-4bc2-ab80-1ad3b82440b6" />
+
+
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
 - ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
   
