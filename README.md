@@ -98,18 +98,21 @@ output: string
 huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 ```
 
-🗒️ Test 1: One Ray worker with 1 GPU
+🗒️ Test 1: Train `T5-11B model` with single GPU
+
+
+🗒️ Test 2: Train `T5-11B model` with 1 Ray worker of 1 GPU
 <img width="900" height="663" alt="image" src="https://github.com/user-attachments/assets/1bce3ccd-306f-4ad0-8523-8134f500a878" />
 
-🗒️ Test 2: Three Ray workers with 1 GPU each.
-<img width="900" height="723" alt="image" src="https://github.com/user-attachments/assets/3c129e3f-029e-42a5-b3bb-5a228edaacea" />
+🗒️ Test 3: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
+<img width="1400" height="709" alt="image" src="https://github.com/user-attachments/assets/b41a6049-0eea-47e3-9c74-0465ad08ecc0" />
 
 ```
-NAME               READY   STATUS    RESTARTS   AGE     IP             NODE                                          NOMINATED NODE   READINESS GATES
-2j8ybees3x1fdfzc   5/5     Running   0          34m     10.42.7.250    ares-ecs-ws05.ares.olympus.cloudera.com       <none>           <none>
-36wgxhvn90jn2slr   5/5     Running   0          34m     10.42.11.168   ares-ecs-ws-gpu03.ares.olympus.cloudera.com   <none>           <none>
-612tbem2efmi5d3k   5/5     Running   0          34m     10.42.9.112    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
-wex45fbaxwnocf55   5/5     Running   0          34m     10.42.9.111    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
+NAME               READY   STATUS    RESTARTS   AGE   IP             NODE                                          NOMINATED NODE   READINESS GATES
+4dvzodfufpiyqnvu   5/5     Running   0          12m   10.42.9.204    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
+iz04ymk241xhby7y   5/5     Running   0          12m   10.42.9.205    ares-ecs-ws-gpu01.ares.olympus.cloudera.com   <none>           <none>
+poei8fuvp2f68yj6   5/5     Running   0          12m   10.42.8.61     ares-ecs-ws06.ares.olympus.cloudera.com       <none>           <none>
+qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws-gpu03.ares.olympus.cloudera.com   <none>           <none>
 ```
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
 - ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
