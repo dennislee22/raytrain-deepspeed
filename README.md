@@ -102,10 +102,13 @@ huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 
 
 🗒️ Test 2: Train `T5-11B model` with 1 Ray worker of 1 GPU
-<img width="900" height="663" alt="image" src="https://github.com/user-attachments/assets/1bce3ccd-306f-4ad0-8523-8134f500a878" />
+
 
 🗒️ Test 3: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
 <img width="1400" height="709" alt="image" src="https://github.com/user-attachments/assets/b41a6049-0eea-47e3-9c74-0465ad08ecc0" />
+
+<img width="1394" height="696" alt="image" src="https://github.com/user-attachments/assets/8f99d0b9-5c91-47ff-a702-75b2627f86d7" />
+
 
 ```
 NAME               READY   STATUS    RESTARTS   AGE   IP             NODE                                          NOMINATED NODE   READINESS GATES
