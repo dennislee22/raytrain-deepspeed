@@ -99,9 +99,6 @@ huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 ```
 
 
-
-
-
 🗒️ Test 1: Train `T5-11B model` with single GPU
 
 When using 
@@ -135,6 +132,7 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 
 🗒️ Test 3: Train `T5-3B model` with single GPU
 
+<img width="1413" height="636" alt="image" src="https://github.com/user-attachments/assets/b4cbd395-1cc3-4f3c-be94-d1fafe777f7e" />
 
 🗒️ Test 4: Train `T5-3B model` with 2 Ray workers of 1 GPU each.
 
