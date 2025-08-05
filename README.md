@@ -138,7 +138,8 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 🗒️ Test 4: Train `T5-3B model` with 2 Ray workers of 1 GPU each.
 
 🗒️ Test 5: Train `T5-3B model` with 3 Ray workers of 1 GPU each.
-<img width="900" height="691" alt="image" src="https://github.com/user-attachments/assets/2dc8ce75-b4bc-4bc2-ab80-1ad3b82440b6" />
+
+<img width="900" height="704" alt="image" src="https://github.com/user-attachments/assets/eb3b5620-0785-4b13-9e2a-c988c91cf578" />
 
 
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
