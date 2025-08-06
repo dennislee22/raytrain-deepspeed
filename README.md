@@ -1,6 +1,6 @@
 # DeepSpeed with Ray
 
-<img width="709" height="340" alt="image" src="https://github.com/user-attachments/assets/58ae1671-fffa-4256-9b87-27f5abf924c0" />
+<img width="711" height="333" alt="image" src="https://github.com/user-attachments/assets/fb499809-e797-4d8c-9580-584b735fc49d" />
 
 ## Finetune a huge model using Ray Train with Deepspeed
 - Objective: The script [job-train-T5-ray-deepspeed.py](job-train-T5-ray-deepspeed.py) fine-tunes the large T5-3b/T5-11b model for a text-to-SQL task using the wikisql dataset.
