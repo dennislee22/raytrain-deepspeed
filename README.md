@@ -104,7 +104,7 @@ poei8fuvp2f68yj6   5/5     Running   0          12m   10.42.8.61     ares-ecs-ws
 qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws-gpu03.ares.olympus.cloudera.com   <none>           <none>
 ```
 
-🗒️ Test 3: Train `T5-3B model` with single GPU
+🗒️ Test 3: Train `T5-3B model` with single GPU.
 
 <img width="900" height="636" alt="image" src="https://github.com/user-attachments/assets/b4cbd395-1cc3-4f3c-be94-d1fafe777f7e" />
 
