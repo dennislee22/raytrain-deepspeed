@@ -1,16 +1,17 @@
 # DeepSpeed with Ray
-<img width="406" height="179" alt="image" src="https://github.com/user-attachments/assets/a03094fc-7087-4246-936c-e9ba7db84255" />
 
-## Platform Requirement
-☑️ Python 3.11
-
-☑️ Cloudera AI(CAI)/Cloudera Machine Learning (CML) 1.5.x
+<img width="709" height="340" alt="image" src="https://github.com/user-attachments/assets/58ae1671-fffa-4256-9b87-27f5abf924c0" />
 
 ## Finetune the T5-3B model using Ray Train with Deepspeed
 - Objective: The script fine-tunes the large t5-large model for a text-to-SQL task using the wikisql dataset.
 - Distributed Training: It leverages Ray to orchestrate a multi-worker training cluster, distributing the data and computation across multiple nodes, each with its own GPU. 🚀
 - Memory Optimization: It uses DeepSpeed's ZeRO Stage 3 to partition the model's parameters, gradients, and optimizer states across the VRAM of all three GPUs in the Ray cluster.
 - Overcoming Limitations: By sharding the model components, DeepSpeed drastically reduces the memory required on any single GPU, enabling the fine-tuning of a model that would be too large to fit into one GPU's limited RAM.
+
+## Platform Requirement
+☑️ Python 3.11
+
+☑️ Cloudera AI(CAI)/Cloudera Machine Learning (CML) 1.5.x
 
 ### Procedure
 1. Create a new CAI project.
@@ -132,7 +133,7 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 
 🗒️ Test 3: Train `T5-3B model` with single GPU
 
-<img width="1413" height="636" alt="image" src="https://github.com/user-attachments/assets/b4cbd395-1cc3-4f3c-be94-d1fafe777f7e" />
+<img width="900" height="636" alt="image" src="https://github.com/user-attachments/assets/b4cbd395-1cc3-4f3c-be94-d1fafe777f7e" />
 
 🗒️ Test 4: Train `T5-3B model` with 2 Ray workers of 1 GPU each.
 
@@ -145,10 +146,7 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
 - ScalingConfig: The num_workers is set to 3 to ensure the job utilizes all available GPU workers.
   
-
-<img width="1449" height="355" alt="image" src="https://github.com/user-attachments/assets/584bdb46-9f39-46c3-8345-4ab23ca8a6c2" />
-
-
+<img width="900" height="351" alt="image" src="https://github.com/user-attachments/assets/591c57c7-008c-4676-8b67-b06ed8bd56a1" />
 
 ## Tips
 
