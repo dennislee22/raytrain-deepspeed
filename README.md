@@ -5,7 +5,7 @@
 ## Finetune a huge model using Ray Train with Deepspeed
 - Objective: The script [job-train-T5-ray-deepspeed.py](job-train-T5-ray-deepspeed.py) fine-tunes the large T5-3b/T5-11b model for a text-to-SQL task using the wikisql dataset.
 - Distributed Training: It leverages Ray to orchestrate a multi-worker training cluster, distributing the data and computation across multiple nodes, each with its own GPU. 🚀
-- Memory Optimization: It uses DeepSpeed's ZeRO Stage 3 to partition the model's parameters, gradients, and optimizer states across the VRAM of all three GPUs in the Ray cluster.
+- Memory Optimization: It uses DeepSpeed's ZeRO Stage 3 to partition the model's parameters, gradients, and optimizer states across the GRAM of all three GPUs in the Ray cluster.
 - Overcoming Limitations: By sharding the model components, DeepSpeed drastically reduces the memory required on any single GPU, enabling the fine-tuning of a model that would be too large to fit into one GPU's limited RAM.
 
 ## Platform Requirement
@@ -74,7 +74,7 @@ huggingface: '{"info": {"features": {"instruction": {"dtype": "string", "' + 116
 🗒️ Test 1: Train `T5-11B model` with single GPU
 
 When fine-tuning a large model like `T5-11B`, GRAM is quickly consumed by three main components:
-- Model Weights: The parameters of the model itself. A model with billions of parameters requires gigabytes of VRAM just to be loaded.
+- Model Weights: The parameters of the model itself. A model with billions of parameters requires gigabytes of GRAM just to be loaded.
 - Gradients: During backpropagation, the network calculates a gradient for every parameter. These gradients are roughly the same size as the model weights.
 - Optimizer States: Modern optimizers like Adam or AdamW store additional data for each parameter (e.g., momentum and variance), often doubling the memory required by the model weights.
 
