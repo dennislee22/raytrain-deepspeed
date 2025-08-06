@@ -1,4 +1,4 @@
-# DeepSpeed with Ray
+# Ray Train with DeepSpeed 🚀
 
 <img width="711" height="333" alt="image" src="https://github.com/user-attachments/assets/fb499809-e797-4d8c-9580-584b735fc49d" />
 
@@ -85,6 +85,7 @@ Total: ≈176 GB
 
 This total far exceeds the capacity of even high-end GPUs like the A100 (80 GB). As a result, train `T5-11B model` with single GPU hits the following error.
 ```
+torch.OutOfMemoryError: CUDA out of memory
 ```
 
 🗒️ Test 2: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
@@ -115,14 +116,16 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 
 ### Result Overview
 
-<img width="900" height="351" alt="image" src="https://github.com/user-attachments/assets/591c57c7-008c-4676-8b67-b06ed8bd56a1" />
+<img width="860" height="205" alt="image" src="https://github.com/user-attachments/assets/6cf3c063-3c11-4067-a1f8-df19c8315448" />
 
+Training/Finetuning the same model using 1 worker/GPU seems faster than using 2 or 3 workers because in a distributed environment with multiple pods/nodes, it involves sending data over the network. Due to this overhead of network communication, training model in a distributed environment might take longer than using 1 worker/GPU.
+  
 ### How the results are collected?
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
 - When using DeepSpeed's ZeRO Stage 3, the model's weights, gradients, and optimizer states are partitioned across all the GPUs/workers. No single worker has the complete model. So, `model.save_checkpoint(tmpdir)` tells each worker to save only its own part of the model (its "shard") into a temporary, local directory on that specific worker's machine.
 - `torch.distributed.barrier()` is a synchronization point. It forces every worker to pause and wait at this line until all other workers have also reached it. This ensures that no worker moves on to the next step until every other worker has successfully saved its local shard.
 - Each worker calls `ray.train.report()` to Ray Train controller. The Ray Train controller receives these reports from all workers. When it sees that each worker has reported a checkpoint shard, it performs the final assembly:
-   - It creates a new, permanent checkpoint directory in your main experiment folder (e.g., ~/ray_results/TorchTrainer_.../checkpoint_000001/).
+   - It creates a new, permanent checkpoint directory in the main experiment folder (e.g., ~/ray_results/TorchTrainer_.../checkpoint_000001/).
    - It then copies the checkpoint shards from each worker's temporary directory over the network and places them into that single, final checkpoint directory.
 This way, Ray Train abstracts away the complexity of distributed storage. The workers only need to worry about saving their local piece, and the central controller handles the aggregation, resulting in a complete, unified checkpoint that can be used for resuming training or for inference.
   
