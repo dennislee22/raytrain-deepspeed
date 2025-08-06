@@ -25,6 +25,7 @@
 Example:
   ```
   git lfs clone https://huggingface.co/google-t5/t5-3b
+  git lfs clone https://huggingface.co/google-t5/t5-11b
   ```
 
 ```
