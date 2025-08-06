@@ -60,8 +60,6 @@ def train_func(config):
         model.config.pad_token_id = tokenizer.pad_token_id
 
     # Prepare Ray Data Loaders
-    # ====================================================
-    # Get the data shard for this worker.
     train_ds = ray.train.get_dataset_shard("train")
 
     def collate_fn(batch):
@@ -147,15 +145,15 @@ if __name__ == "__main__":
 
     # --- Launch Ray Worker Nodes ---
     ray_workers = workers.launch_workers(
-        n=NUM_WORKERS, cpu=2, memory=32, nvidia_gpu=1, code=worker_start_cmd,
+        n=NUM_WORKERS, cpu=2, memory=112, nvidia_gpu=1, code=worker_start_cmd,
     )
     time.sleep(15)
 
     deepspeed_config = {
         "optimizer": {"type": "AdamW", "params": {"lr": 2e-5}},
         "scheduler": {"type": "WarmupLR", "params": {"warmup_num_steps": 100}},
-        "fp16": {"enabled": True},
-        "bf16": {"enabled": False},
+        "fp16": {"enabled": False},
+        "bf16": {"enabled": True}, #If your GPU support it to prevent gradient overflow in fp16.
         "zero_optimization": {
             "stage": 3,
             "offload_optimizer": {"device": "none"},
@@ -170,14 +168,16 @@ if __name__ == "__main__":
 
     training_config = {
         "seed": 42,
-        "model_id": "t5-small",
+        "model_id": "/home/cdsw/t5-3b",
         "num_epochs": 1,
         "train_batch_size": 8,
         "generation_max_length": 128,
         "deepspeed_config": deepspeed_config,
     }
     
-    train_dataset = ray.data.read_parquet("wikisql/data/train-00000-of-00001-36d5d5ed0289390f.parquet")
+    # Use only the first 20 rows from the Parquet file for training
+    train_dataset = ray.data.read_parquet("wikisql/data/train-00000-of-00001-36d5d5ed0289390f.parquet").limit(1000)
+    
     ray_datasets = {"train": train_dataset}
     trainer = TorchTrainer(
         train_func,
