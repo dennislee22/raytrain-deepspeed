@@ -120,7 +120,7 @@ qlaw1c8tm2ksqsp7   5/5     Running   0          12m   10.42.11.234   ares-ecs-ws
 
 <img width="860" height="205" alt="image" src="https://github.com/user-attachments/assets/6cf3c063-3c11-4067-a1f8-df19c8315448" />
 
-Training/Finetuning the same model using 1 worker/GPU seems faster than using 2 or 3 workers because in a distributed environment with multiple pods/nodes, it involves sending data over the network. Due to this overhead of network communication, training model in a distributed environment might take longer than using 1 worker/GPU.
+Training/Finetuning the same model using 1 worker/GPU seems faster than using 2 or 3 workers because in a distributed environment with multiple pods/nodes, it involves sending data over the network. Due to this overhead of network communication, training model in a distributed environment might take longer with more than 1 worker/GPU.
   
 ### How the results are collected?
 - Because of ZeRO-3, the model is sharded across 3 workers. `Ray Train` is designed to handle the complexities of gathering the sharded model state and saving a single, consolidated checkpoint.
