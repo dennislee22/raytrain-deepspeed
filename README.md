@@ -40,8 +40,7 @@ total 32G
 ```
 
 4. Download the [wikisql](https://huggingface.co/datasets/htriedman/wikisql) dataset. See the sample content of the dataset in parquet format.
-Example:
-- Dataset:
+Dataset example:
 ```
 $ python view-parquet.py wikisql/data/train-00000-of-00001-36d5d5ed0289390f.parquet 
 
