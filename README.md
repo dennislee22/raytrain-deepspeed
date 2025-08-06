@@ -90,6 +90,7 @@ torch.OutOfMemoryError: CUDA out of memory
 ```
 
 🗒️ Test 2: Train `T5-11B model` with 3 Ray workers of 1 GPU each.
+
 Thanks to Ray Train for orchestrating the distributed backend and DeepSpeed for its ZeRO-3 optimization, we successfully fine-tuned a model far too large for a single machine's memory. Ray scales a training workload, allowing DeepSpeed to effectively partition the model's parameters, gradients, and optimizer states across the entire cluster. By leveraging this powerful combination, we transformed a memory-bound failure on a single node into a successful, distributed training job, aggregating the GPU memory from all workers to fit the huge model.
 The script uses `bf16` to save memory.
 
